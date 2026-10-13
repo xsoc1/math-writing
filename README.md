@@ -1,61 +1,34 @@
-# 数学写作 skill · v0.1.0
+# math-writing v0.2
 
-从七份用户提供的书稿代表段落，提炼中英文数学写作规则，输出到 LaTeX 与 Obsidian Markdown。此包已写成可使用的初版，不是只有一个“以后再研究”的提示词。入口是 `SKILL.md`。
+中英文数学写作 skill，支持 LaTeX 与 Obsidian Markdown。v0.2 在原有数学底线、双语规则和分支策略上，增加了独立入门讲义的专门模式。
 
-## 最快使用方式
+## 入口
 
-将本目录交给支持读取文件的工作代理，要求先读 `SKILL.md`，再按任务加载引用文件。支持 Agent Skills 的工具可按该工具自己的安装说明注册整个 `math-writing` 目录；本交付未替你安装，也不假定某个模型或产品支持相同的安装路径。
+先读 `SKILL.md`。一般任务使用 `prompts/START.md`；重编入门讲义使用 `prompts/LECTURE.md`，并加载 `references/intro-lecture.md`。新增规则的依据和边界见 `references/failure-case-lie.md`，长讲义编辑回归案例见 `tests/lecture-regression.md`。
 
-可直接使用 `prompts/START.md`。继续纳入新书时用 `prompts/EXTEND.md`。不支持 skill 自动发现的环境也可以显式提供入口与相关参考文件。
+向工作模型提供整个目录，不只粘贴主文件而丢失被引用的规范。目录名可使用 `math-writing`；主 skill 的 `name` 保持不变。原包的文件交付与此仓库的维护、部署检查分开记录，见 [本次更新记录](validation/DEPLOYMENT.md)。
 
-## 目录与内容
+## 版本范围
 
-| 文件 / 目录 | 用途 |
-|---|---|
-| `SKILL.md` | 入口：数学底线、写作规则、任务路由与验收 |
-| `references/source-observations.md` | 版本、抽样位置、来源观察、规则来源与局限 |
-| `references/branches.md` | 六类分支写法与混合论证路由 |
-| `references/bilingual.md` | 中文、英文及翻译规范，易混术语 |
-| `references/pedagogy.md` | 教学模式、研究依据与适用边界 |
-| `references/typesetting.md` | 可调整的书页 / 屏幕版式及兼容边界 |
-| `references/tools.md` | 读取、编辑、编译、文献、图表与验证的使用模式 |
-| `references/distillation.md` | 新书取样、规则提炼、反例与版本迭代 |
-| `references/web-sources.md` | 官方文档、研究文献及访问日期 |
-| `assets/latex/` | 中英各一份六主题写作样张、简洁文档骨架及共用样式 |
-| `assets/obsidian/` | 中英样张、笔记骨架、示例索引及仅作用于数学笔记的 CSS |
-| `assets/diagrams/` | 交换图源文件及发布用图形 |
-| `scripts/` | 环境检测、安全边界明确的样张构建、有限静态检查 |
-| `tests/` | 静态检查器单元测试、数学与可读性回归任务 |
-| `examples-output/` | 实际编译后的中英 PDF 样张 |
-| `validation/` | 本次实际执行情况与环境信息 |
+v0.2 不要求所有文章都变长。研究型证明、参考笔记、教学讲义应采用不同解释程度。入门模式重点是定义和证明依赖闭合、新运算能够复现，以及根据先修知识和运算熟练度分别选择展开量。
 
-## 编译与检查
+保留的 `assets/`、`examples-output/` 和原短样张是 v0.1 资源，没有因目录升级就被宣称为本轮新写。原有验证结果已移至 `validation/history-v0.1/`；本轮范围见 `validation/REPORT.md`。本包没有打包用户的原书或字体文件。
 
-需要 Python 3.10+ 和可用的 XeLaTeX、latexmk、CTeX、AMS 相关包、unicode-math、TikZ-cd。模板只引用系统字体，不包含字体文件；样张字体选择详见排版规范。Python 脚本本身不依赖第三方 Python 包。
+原包说明提到的完整李代数讲义不在此仓库中；相关既往报告保留为供稿记录，本次没有重新核读或认证该讲义。
 
-在包根目录运行：
+## Codex 使用
+
+将本仓库的技能目录放在用户技能目录 `~/.agents/skills/math-writing`，然后通过 `$math-writing` 调用；保留全部参考文件，而不只复制 SKILL.md。已有安装时先备份，再更新文件，避免覆盖其他技能或已有应用设置。发现位置与更新行为见 [OpenAI 官方技能说明](https://learn.chatgpt.com/docs/build-skills)。
+
+公开仓库地址为 [xsoc1/math-writing](https://github.com/xsoc1/math-writing)。Git 版本管理保留 v0.1 基线与 v0.2 更新，安装副本不包含 .git。
+
+## 检查与证据
 
 ```sh
-python scripts/check_env.py --output validation/environment-local.json
-python -m unittest discover -s tests -v
-python scripts/lint_math.py assets/obsidian/Specimen-zh.md assets/obsidian/Specimen-en.md
-python scripts/build.py --language both
+	python -m unittest discover -s tests -v
+	python scripts/lint_math.py assets/obsidian/Specimen-zh.md assets/obsidian/Specimen-en.md assets/latex/main-zh.tex assets/latex/main-en.tex
 ```
 
-Windows 也可将 `python` 改为 `py`。若 TeX 发行版尚未安装相关包，先通过该发行版的包管理器补齐；不将下载执行器、管理员权限或 shell-escape 作为本 skill 的默认步骤。安装结果由 `check_env.py` 和实际编译核实。
+12 项脚本测试与 12 项长讲义编辑案例不是同一项验证。后者要求实际检查正文，不能因为案例文件齐全就称为通过。历史 PDF、MathJax 和讲义报告不替代本机重跑，不替代学生理解实验。
 
-若仅用 Obsidian，将 `assets/obsidian` 的内容复制到一个测试 vault，或有选择地加入已有 vault；隐藏目录中的 `.obsidian/snippets/math-writing.css` 需要复制到目标 vault 的同名目录并在“外观 → CSS 代码片段”启用。合并文件而非覆盖已有 `.obsidian` 配置。样张的 `cssclasses: [math-note]` 控制样式作用范围。
-
-## 初版覆盖与限制
-
-本次认真选读了导言、概念引入和若干完整的短证明单元，并查看代表性页面；没有逐页精读七本书。中文取样仅两卷、同一作者。卷二是 2022-05-06 的未定稿，不能把缺失导读当成成熟范式。Serre 的上传版本为英文译本扫描件，正文通过页面图像读取；Milnor 文件为双页扫描，PDF 页码不等于印刷页码。
-
-当前优势是代数 / 范畴、同调、复分析、微分拓扑、Lie 理论、算术。未充分训练的分支不冒充同等成熟。排版数值是本项目可修改的默认值，不是“最佳字体 / 行距”的实验结论。
-
-所有数学样张是标准结论的新写示范，不是原书摘录。原书 PDF、长段书文和字体文件均不随包分发。数学内容做了逐步人工式核对及有限程序测试，但没有进行 Lean 等全篇形式化认证。LaTeX 与 Obsidian 的实际验证状态，以 `validation/REPORT.md` 为准。
-
-可选公式解析检查：已有可解析的 `mathjax-full` 时，运行 `node scripts/check_mathjax.cjs assets/obsidian/Specimen-zh.md assets/obsidian/Specimen-en.md`。这只处理样张所用的美元数学子集，不是通用 Markdown 解析或 Obsidian GUI 验证。无需此检查也可使用核心 skill。
-
-图的 SVG 导出使用 Poppler 的 `pdftocairo`；无需重建图时可用 `build.py --skip-diagram`，保留已有图但不能据此声称图已重新生成。
-
-`assets/latex/.vscode/settings.json` 提供可选编辑器 recipe。合并所需条目，不覆盖已有项目配置；本次未在 VS Code GUI 中运行它。
+本仓库未另行指定开放源代码许可证；公开可读不代表此次维护代作者授予新的许可。

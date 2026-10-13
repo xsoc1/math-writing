@@ -1,0 +1,17 @@
+test_code_is_ignored (test_lint.LintTests.test_code_is_ignored) ... ok
+test_comments_ignored_in_tex (test_lint.LintTests.test_comments_ignored_in_tex) ... ok
+test_duplicate_id (test_lint.LintTests.test_duplicate_id) ... ok
+test_frontmatter_ignored (test_lint.LintTests.test_frontmatter_ignored) ... ok
+test_full_tex_in_md (test_lint.LintTests.test_full_tex_in_md) ... ok
+test_invalid_id (test_lint.LintTests.test_invalid_id) ... ok
+test_logic_phrase_not_error (test_lint.LintTests.test_logic_phrase_not_error) ... ok
+test_open_display (test_lint.LintTests.test_open_display) ... ok
+test_tex_dollar_warning (test_lint.LintTests.test_tex_dollar_warning) ... ok
+test_unsupported_env (test_lint.LintTests.test_unsupported_env) ... ok
+test_valid_callout_math (test_lint.LintTests.test_valid_callout_math) ... ok
+test_wrong_environment_end (test_lint.LintTests.test_wrong_environment_end) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.001s
+
+OK
