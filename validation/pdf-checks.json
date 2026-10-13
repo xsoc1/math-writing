@@ -1,0 +1,50 @@
+{
+  "main-zh": {
+    "pages": 6,
+    "outside_page_text_blocks": [],
+    "missing_characters": 0,
+    "overfull_boxes": 0,
+    "undefined_reference_messages": 0,
+    "package_warning_lines": [
+      "Package unicode-math Warning: Using \\overbracket and \\underbracket from",
+      "Package unicode-math Warning: I'm going to overwrite the following commands"
+    ],
+    "contains_typed_references": true
+  },
+  "main-en": {
+    "pages": 6,
+    "outside_page_text_blocks": [],
+    "missing_characters": 0,
+    "overfull_boxes": 0,
+    "undefined_reference_messages": 0,
+    "package_warning_lines": [
+      "Package unicode-math Warning: Using \\overbracket and \\underbracket from",
+      "Package unicode-math Warning: I'm going to overwrite the following commands"
+    ],
+    "contains_typed_references": true
+  },
+  "template-zh": {
+    "pages": 1,
+    "outside_page_text_blocks": [],
+    "missing_characters": 0,
+    "overfull_boxes": 0,
+    "undefined_reference_messages": 0,
+    "package_warning_lines": [
+      "Package unicode-math Warning: Using \\overbracket and \\underbracket from",
+      "Package unicode-math Warning: I'm going to overwrite the following commands"
+    ],
+    "contains_typed_references": true
+  },
+  "template-en": {
+    "pages": 1,
+    "outside_page_text_blocks": [],
+    "missing_characters": 0,
+    "overfull_boxes": 0,
+    "undefined_reference_messages": 0,
+    "package_warning_lines": [
+      "Package unicode-math Warning: Using \\overbracket and \\underbracket from",
+      "Package unicode-math Warning: I'm going to overwrite the following commands"
+    ],
+    "contains_typed_references": true
+  }
+}

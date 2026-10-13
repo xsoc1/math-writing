@@ -1,0 +1,223 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[en]{math-writing}
+
+\begin{document}
+
+\mwtitle{Mathematical writing: six proof profiles}{Version 0.1 · Exposition, language, and typography}
+
+These six standard results use different expository priorities: structure maps, degrees and signs, uniform control, local geometry, linearization, and arithmetic precision. The exposition is newly written for this project, not excerpted from the source books; the mathematical results themselves are not claimed to be new.
+
+\medskip
+
+\section{Algebra: a factorization with a well-defined map}
+
+The quotient map identifies elements whose difference lies in $N$. For $f$ to factor through this map, it must identify those elements as well. The kernel condition below expresses exactly this requirement.
+
+\begin{proposition}[Factorization through a quotient module]\label{thm:quotient-factorization}
+
+Let $R$ be a unital ring, let $M,P$ be left $R$-modules, and let $N\subseteq M$ be a submodule. Let $f\colon M\to P$ be $R$-linear, and write $q\colon M\to M/N$ for the quotient map. If $N\subseteq\ker f$, there is a unique $R$-linear map $\bar f\colon M/N\to P$ such that $f=\bar f\circ q$.
+
+\end{proposition}
+
+\begin{proof}
+
+Since $q(m)=m+N$, any such factorization must satisfy
+\[
+\bar f(m+N)=f(m).
+\]
+This determines the only possible definition, but independence of the representative still needs checking. If $m+N=m'+N$, then $m-m'\in N\subseteq\ker f$, so $f(m)=f(m')$. Thus $\bar f$ is well-defined.
+
+For $a,b\in R$ and $m,m'\in M$, we have
+\[
+\begin{aligned}
+\bar f\bigl(a(m+N)+b(m'+N)\bigr)
+ &=f(am+bm')\\
+ &=a f(m)+b f(m').
+\end{aligned}
+\]
+Consequently, $\bar f$ is linear, and its definition gives $f=\bar f\circ q$. Finally, this identity determines $\bar f$ uniquely because $q$ is surjective.
+\end{proof}
+
+\mwcomment{Interpretation and scope.}The condition $N\subseteq\ker f$ is also necessary. Indeed, any factorization gives $f(n)=\bar f(q(n))=\bar f(0)=0$ for $n\in N$. The diagram records the identity $f=\bar f\circ q$; its commutativity is not an additional unproved assertion.
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+M \arrow[r,"q"] \arrow[dr,"f"'] & M/N \arrow[d,dashed,"\bar f"]\\
+ & P
+\end{tikzcd}
+\]
+
+\clearpage
+\section{Homological algebra: explain the sign convention}
+
+We use cochain complexes, with differentials of degree $+1$. Fix a unital ring $R$ and work with complexes of left $R$-modules. Our shift convention is $X[1]^n=X^{n+1}$ and $d_{X[1]}^n=-d_X^{n+1}$. We order the terms of the cone as $X[1]\oplus Y$.
+
+\begin{proposition}[The differential of a mapping cone]\label{thm:cone-differential}
+
+Let $f\colon X\to Y$ be a cochain map, so that $d_Y^n f^n=f^{n+1}d_X^n$ for every integer $n$. Define
+\[
+C^n=X^{n+1}\oplus Y^n,\qquad
+ d_C^n=
+\begin{pmatrix}
+-d_X^{n+1}&0\\
+f^{n+1}&d_Y^n
+\end{pmatrix}.
+\]
+Then $d_C^n\colon C^n\to C^{n+1}$ satisfies $d_C^{n+1}d_C^n=0$, and hence defines a cochain complex.
+
+\end{proposition}
+
+\begin{proof}
+
+The entries have the required sources and targets in $C^n=X^{n+1}\oplus Y^n$ and $C^{n+1}=X^{n+2}\oplus Y^{n+1}$, so the displayed matrix defines a map of the stated type.
+
+For $(x,y)\in C^n$, the first component after applying the differential twice is $d_X^{n+2}d_X^{n+1}x=0$. The second component is
+\[
+\begin{aligned}
+ &-f^{n+2}d_X^{n+1}x
+   +d_Y^{n+1}f^{n+1}x
+   +d_Y^{n+1}d_Y^n y\\
+ &=0.
+\end{aligned}
+\]
+The last term vanishes because $Y$ is a complex. The first two cancel because $f$ is a cochain map. This proves the assertion.
+\end{proof}
+
+\mwcomment{Interpretation and scope.}When $X,Y$ are concentrated in degree zero, $C$ is supported in degrees $-1,0$, with differential $X^0\xrightarrow{f^0}Y^0$. This small case checks the degree convention. Using $Y\oplus X[1]$ instead requires a corresponding permutation of the matrix and of the structure maps.
+
+
+
+\clearpage
+\section{Analysis: obtain uniform control before taking limits}
+
+Can a boundary error control the error in derivatives inside a disc? The Cauchy integral formula gives a direct answer. The important choice is to fix a smaller disc first, keeping its points a positive distance from the contour. Here $D_s(a)=\{z\in\mathbb C:|z-a|<s\}$ is the open disc with center $a$ and radius $s>0$.
+
+\begin{proposition}[Transferring a boundary error to derivatives]\label{thm:cauchy-transfer}
+
+Let $\Omega\subseteq\mathbb C$ be open, let $R>0$, and suppose that $\overline{D_R(z_0)}\subseteq\Omega$. Assume that $f_n$ and $f$ are holomorphic on $\Omega$. Fix $0<r<R$, and set
+\[
+M_n=\sup_{|\zeta-z_0|=R}|f_n(\zeta)-f(\zeta)|.
+\]
+Then
+\[
+\sup_{|z-z_0|\le r}|f_n'(z)-f'(z)|
+\le \frac{R}{(R-r)^2}M_n.
+\]
+In particular, if $M_n\to0$, then $f_n'\to f'$ uniformly on $\overline{D_r(z_0)}$.
+
+\end{proposition}
+
+\begin{proof}
+
+Put $g_n=f_n-f$, and let $\gamma$ be the positively oriented circle $|\zeta-z_0|=R$. For $|z-z_0|\le r$, the Cauchy formula for derivatives gives
+\[
+g_n'(z)=\frac{1}{2\pi i}\int_\gamma
+\frac{g_n(\zeta)}{(\zeta-z)^2}\,d\zeta.
+\]
+On the contour, $|\zeta-z|\ge R-r$, and the length of $\gamma$ is $2\pi R$. Hence
+\[
+|g_n'(z)|\le \frac{1}{2\pi}(2\pi R)
+\frac{M_n}{(R-r)^2}.
+\]
+The right-hand side is independent of $z$, so we may take the supremum over the smaller disc. With $r,R$ fixed, its coefficient is also independent of $n$. The assumption $M_n\to0$ therefore yields uniform convergence.
+\end{proof}
+
+\mwcomment{Interpretation and scope.}Holomorphicity of the candidate limit $f$ is an assumption here, not a conclusion inferred merely from its being a limit. If $r$ is also allowed to approach $R$ with $n$, the coefficient may grow, and the last step requires a new estimate.
+
+\clearpage
+\section{Geometry: identify the invariant in a local model}
+
+The existence and dimension parts of the regular value theorem show that a regular level set is a smooth submanifold. We use only those parts below to identify its tangent space. Tangent vectors are described as velocities of smooth curves.
+
+\begin{proposition}[The tangent space of a regular level set]\label{thm:regular-level-tangent}
+
+Let $U\subseteq\mathbb R^m$ be open, let $f\colon U\to\mathbb R^k$ be smooth, and let $y$ be a regular value. Set $M=f^{-1}(y)$. For every $x\in M$, we have
+\[
+T_xM=\ker(df_x).
+\]
+
+\end{proposition}
+
+\begin{proof}
+
+First consider the inclusion. Given $v\in T_xM$, choose a smooth curve $\gamma$ in $M$ with $\gamma(0)=x$ and $\gamma'(0)=v$. Since $f(\gamma(t))=y$, the chain rule gives
+\[
+df_x(v)=\left.\frac{d}{dt}f(\gamma(t))\right|_{t=0}=0.
+\]
+Thus $T_xM\subseteq\ker(df_x)$.
+
+Because $y$ is a regular value, $df_x$ is surjective. Rank-nullity therefore gives $\dim\ker(df_x)=m-k$. The regular value theorem also gives $\dim T_xM=m-k$. The inclusion is consequently an equality of finite-dimensional subspaces.
+\end{proof}
+
+\mwcomment{Interpretation and scope.}For $f(x)=\lVert x\rVert^2$ and level $1$, we obtain $df_x(v)=2\langle x,v\rangle$. Hence the tangent space to the unit sphere is the hyperplane of vectors orthogonal to $x$. This calculation explains the geometric picture; it requires neither compactness nor an orientation.
+
+
+
+\clearpage
+\section{Lie theory: give a local formula its proper scope}
+
+Conjugation is a group-level operation, whereas the commutator appears in its linearized description. Differentiating conjugation along a curve through the identity makes this connection explicit.
+
+\begin{proposition}[The infinitesimal change under conjugation]\label{thm:conjugation-differential}
+
+Let $\mathbb K=\mathbb R$ or $\mathbb C$, let $X,Y\in M_m(\mathbb K)$, and use a real parameter $t$. Then
+\[
+\left.\frac{d}{dt}\bigl(e^{tX}Ye^{-tX}\bigr)\right|_{t=0}
+=XY-YX.
+\]
+
+\end{proposition}
+
+\begin{proof}
+
+The power series for the matrix exponential gives $e^{0X}=I$. At $t=0$, the derivatives of $e^{tX}$ and $e^{-tX}$ are $X$ and $-X$, respectively. Applying the product rule for matrix multiplication yields
+\[
+\left.\frac{d}{dt}\bigl(e^{tX}Ye^{-tX}\bigr)\right|_{t=0}
+=XY+Y(-X)=XY-YX.
+\]
+The order of multiplication is retained throughout. No commutativity assumption on $X$ and $Y$ is used.
+\end{proof}
+
+\mwcomment{Interpretation and scope.}The formula identifies a local first-order variation. It does not imply that an exponential map is globally injective. For example, $t\mapsto e^{it}$ from $\mathbb R$ to $S^1$ is invertible near zero but satisfies $e^{i(t+2\pi)}=e^{it}$. Passing from Lie algebra data to a global Lie group still requires global conditions.
+
+\clearpage
+\section{Arithmetic: state the precision gained by a lift}
+
+Starting with a root modulo $p^r$, we change only the next digit: replace the integer representative $a$ by $a+t p^r$. The immediate goal is not an exact root, but one additional factor of $p$ in the error.
+
+\begin{proposition}[One step of simple-root lifting]\label{thm:one-step-lifting}
+
+Let $p$ be prime, let $F\in\mathbb Z[x]$, and let $r\in\mathbb Z_{\ge1}$ and $a\in\mathbb Z$. If $p^r\mid F(a)$ and $p\nmid F'(a)$, there is a unique residue class $t\pmod p$ such that
+\[
+F(a+t p^r)\equiv0\pmod{p^{r+1}}.
+\]
+
+\end{proposition}
+
+\begin{proof}
+
+Expanding the polynomial with integer coefficients gives
+\[
+F(a+t p^r)=F(a)+t p^rF'(a)+p^{2r}B
+\]
+for some $B\in\mathbb Z$. Since $r\ge1$, we have $2r\ge r+1$, so the remainder vanishes modulo $p^{r+1}$.
+
+Set $c=F(a)/p^r\in\mathbb Z$. The required congruence is therefore equivalent to
+\[
+c+tF'(a)\equiv0\pmod p.
+\]
+The assumption $p\nmid F'(a)$ makes $F'(a)$ invertible in $\mathbb F_p$. Thus
+\[
+t\equiv-c\bigl(F'(a)\bigr)^{-1}\pmod p
+\]
+exists and is unique.
+\end{proof}
+
+\mwcomment{Interpretation and scope.}For $F(x)=x^2-2$, $p=7$, $a=3$, and $r=1$, we have $c=1$. Hence $1+6t\equiv0\pmod7$, or $t\equiv1$. The new representative is $10$, and $F(10)=98$ is divisible by $49$. This is one lifting step; a full $p$-adic root requires iteration and a convergence argument.
+
+\medskip\noindent\small Prerequisites are, respectively, modules and quotients, cochain complexes, the Cauchy integral formula, the regular value theorem, matrix exponentials, and integer congruences. Each proposition can be read independently. Consult the source-observation record for the sampled books, rather than treating these examples as book excerpts.
+
+\par\smallskip\noindent\small Typed cross-reference example: \cref{thm:quotient-factorization,thm:cone-differential} address different compatibility requirements.
+
+\end{document}

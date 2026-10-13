@@ -1,0 +1,50 @@
+[
+  {
+    "concept_id": "quotient-factorization",
+    "branch": "algebra",
+    "latex_label": "thm:quotient-factorization",
+    "obsidian_block_id": "thm-quotient-factorization",
+    "name_zh": "商模因子化",
+    "name_en": "Factorization through a quotient module"
+  },
+  {
+    "concept_id": "cone-differential",
+    "branch": "homological",
+    "latex_label": "thm:cone-differential",
+    "obsidian_block_id": "thm-cone-differential",
+    "name_zh": "映射锥的微分",
+    "name_en": "The differential of a mapping cone"
+  },
+  {
+    "concept_id": "cauchy-transfer",
+    "branch": "analysis",
+    "latex_label": "thm:cauchy-transfer",
+    "obsidian_block_id": "thm-cauchy-transfer",
+    "name_zh": "从边界误差到内部导数",
+    "name_en": "Transferring a boundary error to derivatives"
+  },
+  {
+    "concept_id": "regular-level-tangent",
+    "branch": "geometry-topology",
+    "latex_label": "thm:regular-level-tangent",
+    "obsidian_block_id": "thm-regular-level-tangent",
+    "name_zh": "正则水平集的切空间",
+    "name_en": "The tangent space of a regular level set"
+  },
+  {
+    "concept_id": "conjugation-differential",
+    "branch": "lie",
+    "latex_label": "thm:conjugation-differential",
+    "obsidian_block_id": "thm-conjugation-differential",
+    "name_zh": "共轭的无穷小变化",
+    "name_en": "The infinitesimal change under conjugation"
+  },
+  {
+    "concept_id": "one-step-lifting",
+    "branch": "arithmetic",
+    "latex_label": "thm:one-step-lifting",
+    "obsidian_block_id": "thm-one-step-lifting",
+    "name_zh": "简单根的一步提升",
+    "name_en": "One step of simple-root lifting"
+  }
+]

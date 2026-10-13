@@ -1,0 +1,223 @@
+\documentclass[11pt,a4paper,fontset=fandol,scheme=plain]{ctexart}
+
+\usepackage[zh]{math-writing}
+
+\begin{document}
+
+\mwtitle{数学写作：六类论证的样张}{初版 0.1 · 论证结构、双语表达与版式}
+
+以下六个标准结论采用不同的解释重点：结构映射、次数与符号、一致控制、局部几何、线性化接口、算术精度。它们是本项目独立新写的示例，不是原书摘录，也不声称结论本身有创新。
+
+\medskip
+
+\section{代数：先解释分解，再检查良定义}
+
+商映射把相差一个 $N$ 中元素的向量视为相同。要让 $f$ 通过这个商映射分解，首先必须保证 $f$ 也无法区分这样的两个向量。以下结果把这一要求写成核的条件。
+
+\begin{proposition}[商模因子化]\label{thm:quotient-factorization}
+
+设 $R$ 是含幺环，$M,P$ 是左 $R$-模，$N\subseteq M$ 是子模，$f\colon M\to P$ 是 $R$-线性映射。记商映射为 $q\colon M\to M/N$。若 $N\subseteq\ker f$，则存在唯一的 $R$-线性映射 $\bar f\colon M/N\to P$ 使 $f=\bar f\circ q$。
+
+\end{proposition}
+
+\begin{proof}
+
+由于 $q(m)=m+N$，任何这样的分解都必须满足
+\[
+\bar f(m+N)=f(m).
+\]
+这给出了唯一可能的定义，但还要检查它与代表元无关。若 $m+N=m'+N$，则 $m-m'\in N\subseteq\ker f$，故 $f(m)=f(m')$。因此 $\bar f$ 良定义。
+
+对任意 $a,b\in R$ 和 $m,m'\in M$，有
+\[
+\begin{aligned}
+\bar f\bigl(a(m+N)+b(m'+N)\bigr)
+ &=f(am+bm')\\
+ &=a f(m)+b f(m').
+\end{aligned}
+\]
+所以 $\bar f$ 是线性的，且按定义满足 $f=\bar f\circ q$。最后，$q$ 满射，故这个等式唯一确定 $\bar f$。
+\end{proof}
+
+\mwcomment{解释与边界。}条件 $N\subseteq\ker f$ 不只是证明的方便：若分解存在，对 $n\in N$ 就有 $f(n)=\bar f(q(n))=\bar f(0)=0$。因此它也必要。图中的交换性恰好是 $f=\bar f\circ q$，并非另一个未经证明的结论。
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+M \arrow[r,"q"] \arrow[dr,"f"'] & M/N \arrow[d,dashed,"\bar f"]\\
+ & P
+\end{tikzcd}
+\]
+
+\clearpage
+\section{同调代数：把负号放回它的作用中}
+
+本节使用上链复形：微分升一次。固定含幺环 $R$，所有复形均由左 $R$-模组成；平移约定为 $X[1]^n=X^{n+1}$、$d_{X[1]}^n=-d_X^{n+1}$。映射锥采用 $X[1]\oplus Y$ 的项顺序，下面的负号由此固定。
+
+\begin{proposition}[映射锥的微分]\label{thm:cone-differential}
+
+设 $f\colon X\to Y$ 是上链映射，即对每个整数 $n$，有 $d_Y^n f^n=f^{n+1}d_X^n$。令
+\[
+C^n=X^{n+1}\oplus Y^n,\qquad
+ d_C^n=
+\begin{pmatrix}
+-d_X^{n+1}&0\\
+f^{n+1}&d_Y^n
+\end{pmatrix}.
+\]
+则 $d_C^n\colon C^n\to C^{n+1}$ 满足 $d_C^{n+1}d_C^n=0$，从而定义一个上链复形。
+
+\end{proposition}
+
+\begin{proof}
+
+各矩阵条目的源与靶分别位于 $C^n=X^{n+1}\oplus Y^n$ 和 $C^{n+1}=X^{n+2}\oplus Y^{n+1}$，所以 $d_C^n$ 的类型正确。
+
+对 $(x,y)\in C^n$，两次应用微分后，第一分量是 $d_X^{n+2}d_X^{n+1}x=0$。第二分量为
+\[
+\begin{aligned}
+ &-f^{n+2}d_X^{n+1}x
+   +d_Y^{n+1}f^{n+1}x
+   +d_Y^{n+1}d_Y^n y\\
+ &=0.
+\end{aligned}
+\]
+最后一项由 $Y$ 是复形而为零，前两项则由 $f$ 是上链映射而抵消。这证明了所需等式。
+\end{proof}
+
+\mwcomment{解释与边界。}若 $X,Y$ 都集中于零次，$C$ 仅在 $-1,0$ 次非零，微分就是 $X^0\xrightarrow{f^0}Y^0$。这个小例子也检查了次数安排。若改用 $Y\oplus X[1]$，应同时置换矩阵行列和结构映射，不能只换书写顺序。
+
+
+
+\clearpage
+\section{分析：在取极限前获得统一的界}
+
+边界上的误差能否控制内部的导数误差？Cauchy 积分公式给出一个直接答案。关键是先固定内部圆盘，使积分路径与待估计的点保持正距离。这里 $D_s(a)=\{z\in\mathbb C:|z-a|<s\}$ 表示以 $a$ 为中心、半径 $s>0$ 的开圆盘。
+
+\begin{proposition}[从边界误差到内部导数]\label{thm:cauchy-transfer}
+
+设 $\Omega\subseteq\mathbb C$ 为开集，$R>0$，且 $\overline{D_R(z_0)}\subseteq\Omega$。设 $f_n$ 和 $f$ 均在 $\Omega$ 上全纯。固定 $0<r<R$，记
+\[
+M_n=\sup_{|\zeta-z_0|=R}|f_n(\zeta)-f(\zeta)|.
+\]
+则
+\[
+\sup_{|z-z_0|\le r}|f_n'(z)-f'(z)|
+\le \frac{R}{(R-r)^2}M_n.
+\]
+特别地，若 $M_n\to0$，则 $f_n'\to f'$ 在 $\overline{D_r(z_0)}$ 上一致收敛。
+
+\end{proposition}
+
+\begin{proof}
+
+令 $g_n=f_n-f$，并令 $\gamma$ 为正向圆周 $|\zeta-z_0|=R$。对 $|z-z_0|\le r$，Cauchy 导数公式给出
+\[
+g_n'(z)=\frac{1}{2\pi i}\int_\gamma
+\frac{g_n(\zeta)}{(\zeta-z)^2}\,d\zeta.
+\]
+路径上有 $|\zeta-z|\ge R-r$，而 $\gamma$ 的长度为 $2\pi R$。因此
+\[
+|g_n'(z)|\le \frac{1}{2\pi}(2\pi R)
+\frac{M_n}{(R-r)^2}.
+\]
+右端与 $z$ 无关，故可取内部圆盘上的上确界。固定 $r,R$ 后，系数也与 $n$ 无关，于是 $M_n\to0$ 给出所称的一致收敛。
+\end{proof}
+
+\mwcomment{解释与边界。}这里已假设极限候选 $f$ 全纯，并未把“它是全纯函数列的极限”直接当成全纯性的证明。若 $r$ 也随 $n$ 趋向 $R$，则系数可能增大，不能沿用最后一步而不另作估计。
+
+\clearpage
+\section{几何：从局部对象中识别不变量}
+
+正则值定理的存在性与维数结论说明，正则水平集是光滑子流形。以下只使用这部分结论，进一步识别它的切空间；切向量采用光滑曲线的速度来描述。
+
+\begin{proposition}[正则水平集的切空间]\label{thm:regular-level-tangent}
+
+设 $U\subseteq\mathbb R^m$ 为开集，$f\colon U\to\mathbb R^k$ 光滑，$y$ 为正则值。令 $M=f^{-1}(y)$。则对每个 $x\in M$，有
+\[
+T_xM=\ker(df_x).
+\]
+
+\end{proposition}
+
+\begin{proof}
+
+先证包含关系。若 $v\in T_xM$，取 $M$ 中的光滑曲线 $\gamma$，使 $\gamma(0)=x$、$\gamma'(0)=v$。因为 $f(\gamma(t))=y$，链式法则给出
+\[
+df_x(v)=\left.\frac{d}{dt}f(\gamma(t))\right|_{t=0}=0.
+\]
+所以 $T_xM\subseteq\ker(df_x)$。
+
+由于 $y$ 是正则值，$df_x$ 满射，故秩—零化度定理给出 $\dim\ker(df_x)=m-k$。另一方面，正则值定理给出 $\dim T_xM=m-k$。两个有限维子空间有包含关系且维数相同，因而相等。
+\end{proof}
+
+\mwcomment{解释与边界。}对 $f(x)=\lVert x\rVert^2$ 取水平值 $1$，有 $df_x(v)=2\langle x,v\rangle$。因此单位球面的切空间是与 $x$ 正交的向量所成的超平面。这里的计算解释了几何图像，不需要额外假设紧性或定向。
+
+
+
+\clearpage
+\section{Lie 理论：解释局部公式的含义与限度}
+
+矩阵共轭是群层次的运算，交换子则属于线性化后的描述。对共轭沿一条过单位元的曲线求导，可以看见两者之间的联系。
+
+\begin{proposition}[共轭的无穷小变化]\label{thm:conjugation-differential}
+
+设 $\mathbb K=\mathbb R$ 或 $\mathbb C$，$X,Y\in M_m(\mathbb K)$，并以实数 $t$ 为参数。则
+\[
+\left.\frac{d}{dt}\bigl(e^{tX}Ye^{-tX}\bigr)\right|_{t=0}
+=XY-YX.
+\]
+
+\end{proposition}
+
+\begin{proof}
+
+由矩阵指数的幂级数，$e^{0X}=I$，且在 $t=0$ 处，$e^{tX}$ 和 $e^{-tX}$ 的导数分别是 $X$ 和 $-X$。矩阵乘法的乘积法则于是给出
+\[
+\left.\frac{d}{dt}\bigl(e^{tX}Ye^{-tX}\bigr)\right|_{t=0}
+=XY+Y(-X)=XY-YX.
+\]
+乘法顺序在求导中保持不变；这里没有假定 $X$ 与 $Y$ 可交换。
+\end{proof}
+
+\mwcomment{解释与边界。}该公式识别的是局部的一阶变化，不推出指数映射全局单射。例如 $\mathbb R\to S^1$ 的映射 $t\mapsto e^{it}$ 在零附近可逆，但满足 $e^{i(t+2\pi)}=e^{it}$。从 Lie 代数回到全局 Lie 群时，仍需另行处理全局条件。
+
+\clearpage
+\section{算术：说明提升改进了多少精度}
+
+已有一个模 $p^r$ 的根时，我们只修改下一位：把整数代表元 $a$ 换成 $a+t p^r$。目标不是立刻得到精确根，而是让误差再多一个因子 $p$。
+
+\begin{proposition}[简单根的一步提升]\label{thm:one-step-lifting}
+
+设 $p$ 为素数，$F\in\mathbb Z[x]$，$r\in\mathbb Z_{\ge1}$，$a\in\mathbb Z$。若 $p^r\mid F(a)$ 且 $p\nmid F'(a)$，则存在唯一的剩余类 $t\pmod p$，使
+\[
+F(a+t p^r)\equiv0\pmod{p^{r+1}}.
+\]
+
+\end{proposition}
+
+\begin{proof}
+
+整数系数多项式的展开给出
+\[
+F(a+t p^r)=F(a)+t p^rF'(a)+p^{2r}B
+\]
+其中 $B\in\mathbb Z$。因为 $r\ge1$，有 $2r\ge r+1$，故余项模 $p^{r+1}$ 为零。
+
+令 $c=F(a)/p^r\in\mathbb Z$。所求同余式因而等价于
+\[
+c+tF'(a)\equiv0\pmod p.
+\]
+由 $p\nmid F'(a)$，$F'(a)$ 在 $\mathbb F_p$ 中可逆。于是
+\[
+t\equiv-c\bigl(F'(a)\bigr)^{-1}\pmod p
+\]
+存在且唯一。
+\end{proof}
+
+\mwcomment{解释与边界。}例如 $F(x)=x^2-2$、$p=7$、$a=3$、$r=1$ 时，$c=1$，故 $1+6t\equiv0\pmod7$，即 $t\equiv1$。新的代表元是 $10$，且 $F(10)=98$ 可被 $49$ 整除。这只证明了一步提升；构造完整的 $p$-进根还需迭代和收敛论证。
+
+\medskip\noindent\small 这些示例的先修分别是模与商、上链复形、Cauchy积分公式、正则值定理、矩阵指数和整数同余。各命题可以单独阅读；需要复核来源写法时，查阅本包的来源记录，而不是把样张当成原书内容。
+
+\par\smallskip\noindent\small 类型化引用示例：\cref{thm:quotient-factorization,thm:cone-differential} 分别关注良定义性和微分相容性。
+
+\end{document}

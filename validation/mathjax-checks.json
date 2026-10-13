@@ -1,0 +1,21 @@
+{
+  "engine": "mathjax-full",
+  "version": "3.2.1",
+  "packages": [
+    "base",
+    "ams"
+  ],
+  "scope": "Bundled specimen math conversion only; not Obsidian or proof verification.",
+  "files": [
+    {
+      "file": "assets/obsidian/Specimen-zh.md",
+      "formulas": 166,
+      "failures": []
+    },
+    {
+      "file": "assets/obsidian/Specimen-en.md",
+      "formulas": 166,
+      "failures": []
+    }
+  ]
+}

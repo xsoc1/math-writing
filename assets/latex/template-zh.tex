@@ -1,0 +1,20 @@
+\documentclass[11pt,a4paper,fontset=fandol,scheme=plain]{ctexart}
+\usepackage[zh]{math-writing}
+\begin{document}
+\mwtitle{文章标题}{作者 · 日期 · 版本}
+\section{主题标题}
+% 先在正文写明已有背景、所用约定和本节的目标。
+\begin{definition}[概念名称]\label{def:main}
+在这里写完整定义，说明对象、数据与条件。
+\end{definition}
+\begin{theorem}[结果名称]\label{thm:main}
+在这里写假设与结论；不要用“见上文”掩盖实质条件。
+\end{theorem}
+\begin{proof}
+在这里写证明。长证明可先给化归，短证明直接进入论证。
+\end{proof}
+\begin{remark}\label{rem:scope}
+说明结论的用途或边界；不需要时删除本段。
+\end{remark}
+引用示例：\cref{def:main,thm:main,rem:scope}。
+\end{document}

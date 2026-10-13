@@ -1,0 +1,125 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{math-writing}[2026/10/07 v0.1 Mathematical exposition]
+\newif\ifmwzh
+\DeclareOption{zh}{\mwzhtrue}
+\DeclareOption{en}{\mwzhfalse}
+\ExecuteOptions{en}
+\ProcessOptions\relax
+\RequirePackage{iftex}
+\ifPDFTeX
+  \PackageError{math-writing}{Use XeLaTeX or LuaLaTeX}{This package uses Unicode fonts.}
+\fi
+\RequirePackage{fontspec}
+\RequirePackage{mathtools}
+\RequirePackage{amsthm}
+\RequirePackage{unicode-math}
+\IfFontExistsTF{STIXTwoText-Regular.otf}{
+  \setmainfont{STIXTwoText}[Extension=.otf,UprightFont=*-Regular,
+    BoldFont=*-Bold,ItalicFont=*-Italic,BoldItalicFont=*-BoldItalic]
+}{\setmainfont{Latin Modern Roman}}
+\IfFontExistsTF{STIXTwoMath-Regular.otf}{
+  \setmathfont{STIXTwoMath-Regular.otf}
+}{\setmathfont{Latin Modern Math}}
+\RequirePackage[a4paper,left=30mm,right=30mm,top=26mm,bottom=26mm,headheight=16pt]{geometry}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{tikz-cd}
+\RequirePackage{aliascnt}
+\RequirePackage{fancyhdr}
+\RequirePackage{hyperref}
+\RequirePackage[nameinlink,noabbrev]{cleveref}
+\hypersetup{unicode=true,hidelinks,pdfcreator={XeLaTeX with math-writing v0.1}}
+\ifmwzh
+  \linespread{1.03}
+  \setlength{\parindent}{2em}
+  \ctexset{section={format=\Large\sffamily\bfseries,beforeskip=1.4em,afterskip=.7em},
+    subsection={format=\large\sffamily\bfseries}}
+\else
+  \linespread{1.08}
+  \setlength{\parindent}{1.2em}
+  \RequirePackage{titlesec}
+  \titleformat{\section}{\Large\bfseries}{\thesection}{.6em}{}
+  \titlespacing*{\section}{0pt}{1.4em}{.7em}
+\fi
+\setlength{\parskip}{.12em}
+\setlength{\emergencystretch}{2em}
+\raggedbottom
+\allowdisplaybreaks[1]
+\newtheoremstyle{mwzh}{.7\baselineskip}{.5\baselineskip}{\normalfont}{}%
+ {\bfseries}{.}{.6em}{}
+\ifmwzh
+  \theoremstyle{mwzh}
+  \newtheorem{theorem}{定理}[section]
+  \renewcommand{\proofname}{证明}
+\else
+  \theoremstyle{plain}
+  \newtheorem{theorem}{Theorem}[section]
+\fi
+% Alias counters share a sequence while retaining semantic reference types.
+\newaliascnt{lemma}{theorem}
+\newaliascnt{proposition}{theorem}
+\newaliascnt{corollary}{theorem}
+\ifmwzh
+  \newtheorem{lemma}[lemma]{引理}
+  \newtheorem{proposition}[proposition]{命题}
+  \newtheorem{corollary}[corollary]{推论}
+\else
+  \newtheorem{lemma}[lemma]{Lemma}
+  \newtheorem{proposition}[proposition]{Proposition}
+  \newtheorem{corollary}[corollary]{Corollary}
+\fi
+\aliascntresetthe{lemma}\aliascntresetthe{proposition}\aliascntresetthe{corollary}
+\ifmwzh\theoremstyle{mwzh}\else\theoremstyle{definition}\fi
+\newaliascnt{definition}{theorem}
+\newaliascnt{example}{theorem}
+\newaliascnt{remark}{theorem}
+\ifmwzh
+  \newtheorem{definition}[definition]{定义}
+  \newtheorem{example}[example]{例}
+  \newtheorem{remark}[remark]{注}
+\else
+  \newtheorem{definition}[definition]{Definition}
+  \newtheorem{example}[example]{Example}
+  \newtheorem{remark}[remark]{Remark}
+\fi
+\aliascntresetthe{definition}\aliascntresetthe{example}\aliascntresetthe{remark}
+\ifmwzh
+  \crefname{theorem}{定理}{定理}\Crefname{theorem}{定理}{定理}
+  \crefname{lemma}{引理}{引理}\Crefname{lemma}{引理}{引理}
+  \crefname{proposition}{命题}{命题}\Crefname{proposition}{命题}{命题}
+  \crefname{corollary}{推论}{推论}\Crefname{corollary}{推论}{推论}
+  \crefname{definition}{定义}{定义}\Crefname{definition}{定义}{定义}
+  \crefname{example}{例}{例}\Crefname{example}{例}{例}
+  \crefname{remark}{注}{注}\Crefname{remark}{注}{注}
+  \crefname{equation}{式}{式}\Crefname{equation}{式}{式}
+  \AtBeginDocument{\renewcommand{\crefpairconjunction}{和}
+  \renewcommand{\crefmiddleconjunction}{、}
+  \renewcommand{\creflastconjunction}{和}
+  \renewcommand{\crefrangeconjunction}{至}
+  \renewcommand{\crefpairgroupconjunction}{和}
+  \renewcommand{\crefmiddlegroupconjunction}{、}
+  \renewcommand{\creflastgroupconjunction}{和}}
+\else
+  \crefname{proposition}{proposition}{propositions}
+  \Crefname{proposition}{Proposition}{Propositions}
+\fi
+\numberwithin{equation}{section}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Aut}{Aut}
+\pagestyle{fancy}\fancyhf{}
+\ifmwzh
+  \fancyhead[L]{\small 数学写作\quad 结构与可读性}
+\else
+  \fancyhead[L]{\small Mathematical writing\quad Structure and readability}
+\fi
+\fancyhead[R]{\small v0.1}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{.3pt}
+\newcommand{\mwtitle}[2]{%
+  \noindent{\LARGE\bfseries #1\par}
+  \smallskip\noindent{\small\color{black!65}#2\par}
+  \vspace{.6em}\noindent\rule{\linewidth}{.5pt}\par\medskip}
+
+\newcommand{\mwcomment}[1]{\par\medskip\noindent\textbf{#1}\enspace\ignorespaces}

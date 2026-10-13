@@ -1,0 +1,11 @@
+\documentclass[border=8pt]{standalone}
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\IfFontExistsTF{STIXTwoMath-Regular.otf}{\setmathfont{STIXTwoMath-Regular.otf}}{\setmathfont{Latin Modern Math}}
+\usepackage{tikz-cd}
+\begin{document}
+\begin{tikzcd}[column sep=large,row sep=large]
+M \arrow[r,"q"] \arrow[dr,"f"'] & M/N \arrow[d,dashed,"\bar f"]\\
+ & P
+\end{tikzcd}
+\end{document}
